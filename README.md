@@ -1,6 +1,6 @@
 # aLibraryOfGamesIn2023
 
-Here, you can find a library of games i made in 2023.
+Here, you can find a library of games i made.
 Only the last game i made is working, to unlock the others, just unquote them !
 
 ## List of games :
