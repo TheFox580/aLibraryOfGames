@@ -1,3 +1,10 @@
 # Default ignored files
 /shelf/
 /workspace.xml
+/discord.xml
+/misc.xml
+/modules.xml
+/inspectionProfiles/profiles_settings.xml
+/tryingToMakeAGameWithPyGame.iml
+/vcs.xml
+/venv/
