@@ -185,18 +185,22 @@ pygame.mixer.quit()
 pygame.quit()
 """
 
-
 # 2nd game (Wordle ?)
 import webbrowser
 import time
 
+game_lang = "EN"
 
-def startWordle(len_word):
 
+def startWordle(len_word, lang):
     words = []
 
-    with open('txts/words_alpha.txt', 'r') as f: #English words
-    #with open('txts/liste_francais.txt', 'r') as f: #French words
+    if lang == 'EN':
+        file = "words_alpha"
+    elif lang == 'FR':
+        file = "liste_francais"
+
+    with open(f'txts/{file}.txt', 'r') as f:  # English words
         for line in f:
             for word in line.split():
                 words.append(word)
@@ -205,23 +209,27 @@ def startWordle(len_word):
 
     word_to_find = ''
     word_hidden = ''
-
-    letters_in = []
-    letters_not_in = []
+    letters_in = 'None'
+    letters_not_in = 'None'
 
     words_guessed = []
 
-    for _ in range(len_word):
-        word_hidden += '_'
     while len(word_to_find) != len_word:
         word_to_find = words[random.randint(0, len_words - 1)]
+
+    for i in range(len_word):
+        if word_to_find[i] == "-":
+            word_hidden += '-'
+        else:
+            word_hidden += "_"
 
     tries = 1
     found = False
 
     while not found:
         print('')
-        #print(f"DEBUG MODE IS ON, THE WORD IS --> {word_to_find}")
+        # print(f"DEBUG MODE IS ON, THE WORD IS --> {word_to_find}")
+        print(f"Your current mode : {lang}")
         print("Here is the list of every word you said :")
         for word_said in words_guessed:
             print(word_said, end="\n")
@@ -239,13 +247,17 @@ def startWordle(len_word):
 
                 time.sleep(2)
 
-                boolQ = input("Do you want to play again ? (Yes/No) ")
+                boolQ = input("Do you want to play again ? (Y/N) ")
 
-                if boolQ == "Yes":
-                    return startWordle(random.randint(3, 10))
+                if boolQ == "Y":
+                    return startWordle(random.randint(3, 10), lang)
                 break
             elif len(guess) != len_word:
                 print(f"This word is not {len_word} letter long !")
+                if len(guess) < len_word:
+                    print(f"({len(guess)} < {len_word})")
+                else:
+                    print(f"({len_word} > {len(guess)})")
                 guess = ''
             elif guess not in words:
                 print("This not is not in the dictionary !")
@@ -255,24 +267,37 @@ def startWordle(len_word):
 
         if guess == word_to_find:
             print(f"Congrats ! The word to find was {word_to_find} in {tries} tries")
-            webbrowser.open(f'https://theopendictionary.com/word/{word_to_find}')
+            if lang == 'EN':
+                webbrowser.open(f'https://theopendictionary.com/word/{word_to_find}')
+            elif lang == 'FR':
+                webbrowser.open(f"https://www.larousse.fr/dictionnaires/francais/{word_to_find}")
             time.sleep(2)
 
             boolQ = input("Do you want to play again ? (Y/N) ")
 
             if boolQ == "Y":
-                return startWordle(random.randint(3, 10))
+                return startWordle(random.randint(3, 10), lang)
             break
 
         for i in range(len_word):
             if guess[i] in word_to_find and guess[i] not in letters_in:
-                letters_in.append(guess[i])
+                if letters_in == 'None':
+                    letters_in = ''
+                    letters_in += guess[i]
+                else:
+                    letters_in += f", {guess[i]}"
             elif guess[i] not in letters_not_in and guess[i] not in letters_in:
-                letters_not_in.append(guess[i])
-            if guess[i] == word_to_find ==[i]:
-                word_hidden[i] == word_to_find[i]
+                if letters_not_in == 'None':
+                    letters_not_in = ''
+                    letters_not_in += guess[i]
+                else:
+                    letters_not_in += f", {guess[i]}"
+            if guess[i] == word_to_find[i]:
+                list_word_hidden = list(word_hidden)
+                list_word_hidden[i] = word_to_find[i]
+                word_hidden = ''.join(list_word_hidden)
 
         tries += 1
 
 
-startWordle(random.randint(3, 10))
+startWordle(random.randint(3, 10), game_lang)
