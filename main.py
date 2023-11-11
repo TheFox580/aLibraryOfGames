@@ -250,7 +250,7 @@ def startWordle(len_word, lang):
                 boolQ = input("Do you want to play again ? (Y/N) ")
 
                 if boolQ == "Y":
-                    return startWordle(random.randint(3, 10), lang)
+                    return startWordle(random.randint(3, 28), lang)
                 break
             elif len(guess) != len_word:
                 print(f"This word is not {len_word} letter long !")
@@ -276,7 +276,7 @@ def startWordle(len_word, lang):
             boolQ = input("Do you want to play again ? (Y/N) ")
 
             if boolQ == "Y":
-                return startWordle(random.randint(3, 10), lang)
+                return startWordle(random.randint(3, 28), lang)
             break
 
         for i in range(len_word):
@@ -300,4 +300,4 @@ def startWordle(len_word, lang):
         tries += 1
 
 
-startWordle(random.randint(3, 10), game_lang)
+startWordle(random.randint(3, 28), game_lang)
