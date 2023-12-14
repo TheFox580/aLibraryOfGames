@@ -257,7 +257,7 @@ def startWordle(len_word, lang):
                 if len(guess) < len_word:
                     print(f"({len(guess)} < {len_word})")
                 else:
-                    print(f"({len_word} > {len(guess)})")
+                    print(f"({len_word} < {len(guess)})")
                 guess = ''
             elif guess not in words:
                 print("This not is not in the dictionary !")
